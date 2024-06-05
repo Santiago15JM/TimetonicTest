@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,6 +34,8 @@ import com.sjm.timetonic.ui.theme.TimetonicTestTheme
 
 @Composable
 fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
+    val ctx = LocalContext.current
+
     Surface(shape = RoundedCornerShape(16.dp), modifier = Modifier.wrapContentSize()) {
         Column(
             modifier = Modifier.padding(30.dp),
@@ -63,12 +66,17 @@ fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
                 label = "Password",
             )
 
-            Button(onClick = { vm.login(onSuccess = { nav.navigate("landing") }) }) {
+            Button(onClick = { vm.login(ctx, onSuccess = { nav.navigate("landing") }) }) {
                 Text(text = "Log in", fontSize = 18.sp)
             }
 
-            if (vm.showErrorDialog) AlertDialog(text = "Wrong credentials",
-                onDismissRequest = { vm.showErrorDialog = false })
+            when {
+                vm.showBadCredsDialog -> AlertDialog(text = "Wrong credentials",
+                    onDismissRequest = { vm.showBadCredsDialog = false })
+
+                vm.showErrorDialog -> AlertDialog(text = "There was an error",
+                    onDismissRequest = { vm.showErrorDialog = false })
+            }
         }
     }
 }
