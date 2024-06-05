@@ -11,7 +11,8 @@ data class OauthKeyResponse(
     val status: String,
     val errorCode: String,
     val errorMsg: String,
-    val oauthkey : String
+    val oauthkey : String,
+    val o_u : String,
 )
 
 data class SessionKeyResponse(
