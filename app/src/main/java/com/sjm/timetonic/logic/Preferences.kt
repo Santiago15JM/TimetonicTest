@@ -31,4 +31,10 @@ object Preferences {
 
     suspend fun getUser(ctx: Context): String? =
         ctx.dataStore.data.first()[stringPreferencesKey(USER_PREFERENCES_KEY)]
+
+    suspend fun clear(ctx: Context) {
+        ctx.dataStore.edit { prefs ->
+            prefs.clear()
+        }
+    }
 }

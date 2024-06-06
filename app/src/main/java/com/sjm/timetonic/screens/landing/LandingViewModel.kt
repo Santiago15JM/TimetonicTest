@@ -29,4 +29,11 @@ class LandingViewModel : ViewModel() {
             loading = false
         }
     }
+
+    fun logOut(ctx: Context, onLogOut: () -> Unit) {
+        viewModelScope.launch {
+            Preferences.clear(ctx)
+            onLogOut()
+        }
+    }
 }

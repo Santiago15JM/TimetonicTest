@@ -13,7 +13,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -31,11 +33,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.sjm.timetonic.ui.theme.TimetonicTestTheme
 
 @Composable
-fun LandingPage(vm: LandingViewModel = viewModel()) {
+fun LandingPage(nav: NavController, vm: LandingViewModel = viewModel()) {
     val ctx = LocalContext.current
 
     LaunchedEffect("books") {
@@ -57,11 +61,25 @@ fun LandingPage(vm: LandingViewModel = viewModel()) {
                 color = Color.White,
                 fontWeight = FontWeight.SemiBold
             )
+            Button(
+                onClick = { vm.logOut(ctx, onLogOut = {
+                    nav.navigateUp()
+                }) },
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.ExitToApp,
+                    contentDescription = "Log out"
+                )
+                Text(text = "Log out", fontSize = 20.sp)
+            }
         }
         Row {
-            Surface(shape = RoundedCornerShape(12.dp), modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .fillMaxWidth()) {
+            Surface(
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth()
+            ) {
                 Text(
                     text = "Your books",
                     textAlign = TextAlign.Center,
@@ -131,6 +149,6 @@ fun ErrorItem() {
 @Composable
 fun Preview() {
     TimetonicTestTheme {
-        LandingPage()
+        LandingPage(rememberNavController())
     }
 }
