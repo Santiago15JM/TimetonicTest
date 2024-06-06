@@ -1,5 +1,7 @@
 package com.sjm.timetonic.screens.login
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,7 +40,16 @@ import com.sjm.timetonic.ui.theme.TimetonicTestTheme
 fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
     val ctx = LocalContext.current
 
-    Surface(shape = RoundedCornerShape(16.dp), modifier = Modifier.wrapContentSize().padding(20.dp)) {
+    // To prevent the user from "backing" in to landing
+    BackHandler {
+        (ctx as Activity).finish()
+    }
+
+    Surface(
+        shape = RoundedCornerShape(16.dp), modifier = Modifier
+            .wrapContentSize()
+            .padding(20.dp)
+    ) {
         Column(
             modifier = Modifier.padding(30.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -56,8 +67,7 @@ fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
             }
             Text(text = "Timetonic Library", fontSize = 32.sp, fontWeight = FontWeight(600))
 
-            OutlinedTextField(
-                value = vm.email,
+            OutlinedTextField(value = vm.email,
                 onValueChange = { if (!it.contains(' ')) vm.email = it },
                 label = { Text(text = "Email") },
                 keyboardOptions = KeyboardOptions(
@@ -79,10 +89,12 @@ fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
             }
 
             when {
-                vm.showBadCredsDialog -> AlertDialog(text = "Wrong credentials",
+                vm.showBadCredsDialog -> AlertDialog(
+                    text = "Wrong credentials",
                     onDismissRequest = { vm.showBadCredsDialog = false })
 
-                vm.showErrorDialog -> AlertDialog(text = "There was an error",
+                vm.showErrorDialog -> AlertDialog(
+                    text = "There was an error",
                     onDismissRequest = { vm.showErrorDialog = false })
             }
         }

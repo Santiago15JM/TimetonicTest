@@ -9,13 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sjm.timetonic.logic.Preferences
 import com.sjm.timetonic.screens.landing.LandingPage
 import com.sjm.timetonic.screens.login.Login
 import com.sjm.timetonic.ui.theme.BlueGray
 import com.sjm.timetonic.ui.theme.TimetonicTestTheme
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +27,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             TimetonicTestTheme {
                 val nav = rememberNavController()
+                val ctx = LocalContext.current
+                var isLogged = false
+
+                runBlocking {
+                    val user = Preferences.getUser(ctx)
+                    val token = Preferences.getSessionToken(ctx)
+
+                    if (user != null || token != null) isLogged = true
+                }
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Surface(
                         color = BlueGray, modifier = Modifier
@@ -32,7 +45,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(
                             navController = nav,
-                            startDestination = "login",
+                            startDestination = if(isLogged) "landing" else "login",
                         ) {
                             composable("login") { Login(nav) }
                             composable("landing") { LandingPage(nav) }

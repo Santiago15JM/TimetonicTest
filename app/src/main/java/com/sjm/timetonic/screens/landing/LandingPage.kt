@@ -62,9 +62,9 @@ fun LandingPage(nav: NavController, vm: LandingViewModel = viewModel()) {
                 fontWeight = FontWeight.SemiBold
             )
             Button(
-                onClick = { vm.logOut(ctx, onLogOut = {
-                    nav.navigateUp()
-                }) },
+                onClick = {
+                    vm.logOut(ctx, onLogOut = { nav.navigate("login") })
+                },
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.ExitToApp,
