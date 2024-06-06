@@ -16,4 +16,8 @@ object API {
     suspend fun createSesskey(oauthUser: String, oauthkey: String): SessionKeyResponse? {
         return api.createSesskey(oauthUser = oauthUser, oauthkey = oauthkey).body()
     }
+
+    suspend fun getAllBooks(oauthUser: String, sessionKey: String): AllBooksResponse? {
+        return api.getAllBooks(oauthUser = oauthUser, user = oauthUser, sessionKey = sessionKey).body()
+    }
 }

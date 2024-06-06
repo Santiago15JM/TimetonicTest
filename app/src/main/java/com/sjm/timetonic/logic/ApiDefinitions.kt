@@ -25,4 +25,12 @@ interface ApiDefinitions {
         @Query("o_u") oauthUser: String,
         @Query("oauthkey") oauthkey: String
     ): Response<SessionKeyResponse>
+
+    @POST(".")
+    suspend fun getAllBooks(
+        @Query("req") req: String = "getAllBooks",
+        @Query("o_u") oauthUser: String,
+        @Query("u_c") user: String,
+        @Query("sesskey") sessionKey: String
+    ): Response<AllBooksResponse>
 }
