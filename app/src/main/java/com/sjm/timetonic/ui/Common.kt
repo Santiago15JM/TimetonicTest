@@ -59,6 +59,7 @@ fun PasswordTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
+    modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Default,
     onDone: (KeyboardActionScope.() -> Unit) = {},
 ) {
@@ -68,6 +69,7 @@ fun PasswordTextField(
         onValueChange = onValueChange,
         label = { Text(label) },
         singleLine = true,
+        modifier = modifier,
         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password, imeAction = imeAction

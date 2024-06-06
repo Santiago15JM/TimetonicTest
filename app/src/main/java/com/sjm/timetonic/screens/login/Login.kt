@@ -2,6 +2,7 @@ package com.sjm.timetonic.screens.login
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,7 +38,7 @@ import com.sjm.timetonic.ui.theme.TimetonicTestTheme
 fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
     val ctx = LocalContext.current
 
-    Surface(shape = RoundedCornerShape(16.dp), modifier = Modifier.wrapContentSize()) {
+    Surface(shape = RoundedCornerShape(16.dp), modifier = Modifier.wrapContentSize().padding(20.dp)) {
         Column(
             modifier = Modifier.padding(30.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,12 +60,18 @@ fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
                 value = vm.email,
                 onValueChange = { if (!it.contains(' ')) vm.email = it },
                 label = { Text(text = "Email") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
+                ),
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
             )
             PasswordTextField(
                 value = vm.password,
                 onValueChange = { if (!it.contains(' ')) vm.password = it },
                 label = "Password",
+                onDone = { vm.login(ctx, onSuccess = { nav.navigate("landing") }) },
+                modifier = Modifier.fillMaxWidth()
             )
 
             Button(onClick = { vm.login(ctx, onSuccess = { nav.navigate("landing") }) }) {
