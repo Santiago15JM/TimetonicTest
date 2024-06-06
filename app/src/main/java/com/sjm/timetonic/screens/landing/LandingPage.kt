@@ -42,6 +42,7 @@ import com.sjm.timetonic.ui.theme.TimetonicTestTheme
 fun LandingPage(nav: NavController, vm: LandingViewModel = viewModel()) {
     val ctx = LocalContext.current
 
+    // One time trigger for obtaining the books from the api
     LaunchedEffect("books") {
         vm.getBooks(ctx)
     }
@@ -63,7 +64,8 @@ fun LandingPage(nav: NavController, vm: LandingViewModel = viewModel()) {
             )
             Button(
                 onClick = {
-                    vm.logOut(ctx, onLogOut = { nav.navigate("login") })
+                    // Clears credentials from storage then navigates to login
+                    vm.logOut(ctx, navigateAfterLogout = { nav.navigate("login") })
                 },
             ) {
                 Icon(
@@ -96,14 +98,15 @@ fun LandingPage(nav: NavController, vm: LandingViewModel = viewModel()) {
             verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Conditions for showing items based on state
             when {
                 vm.loading -> item { CircularProgressIndicator() }
 
                 vm.showError -> item { ErrorItem() }
 
                 else -> {
-                    items(vm.books) {
-                        BookItem(title = it.ownerPrefs.title, imgPath = it.ownerPrefs.oCoverImg)
+                    items(vm.books) {book ->
+                        BookItem(title = book.ownerPrefs.title, imgPath = book.ownerPrefs.oCoverImg)
                     }
                     item { Spacer(modifier = Modifier.height(10.dp)) }
                 }

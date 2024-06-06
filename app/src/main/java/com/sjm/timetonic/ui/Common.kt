@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.sjm.timetonic.R
 
+// Common custom composables
+
 @Composable
 fun Button(
     onClick: () -> Unit,

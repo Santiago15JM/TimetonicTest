@@ -2,6 +2,8 @@ package com.sjm.timetonic.logic
 
 import com.sjm.timetonic.config.RetrofitHelper
 
+// App implementation of api functions
+// Calls the functions provided by retrofit with the api definitions, then returns the body of the http response
 object API {
     private val api = RetrofitHelper.getInstance()
 

@@ -8,8 +8,10 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 
+// Attaches the preferences-datastore to the context of the app, which allows to store key-value pairs of data
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore("session-details")
 
+// Store the values in device on the local preferences datastore
 object Preferences {
     private const val SESSION_PREFERENCES_KEY = "session"
     private const val USER_PREFERENCES_KEY = "user"

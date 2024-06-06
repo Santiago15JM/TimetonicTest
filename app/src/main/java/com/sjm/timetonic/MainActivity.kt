@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
                 val ctx = LocalContext.current
                 var isLogged = false
 
+                // Checks if theres a session stored
                 runBlocking {
                     val user = Preferences.getUser(ctx)
                     val token = Preferences.getSessionToken(ctx)
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(
                             navController = nav,
-                            startDestination = if(isLogged) "landing" else "login",
+                            startDestination = if(isLogged) "landing" else "login", // Skips login screen if theres a session stored
                         ) {
                             composable("login") { Login(nav) }
                             composable("landing") { LandingPage(nav) }

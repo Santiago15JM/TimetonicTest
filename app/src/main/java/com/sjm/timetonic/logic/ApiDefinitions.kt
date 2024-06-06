@@ -4,6 +4,7 @@ import retrofit2.Response
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+// Definition of the api endpoints, based of which retrofit implements the http requests
 interface ApiDefinitions {
     @POST(".")
     suspend fun createAppKey(

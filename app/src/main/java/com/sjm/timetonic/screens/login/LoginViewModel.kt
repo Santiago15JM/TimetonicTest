@@ -23,7 +23,7 @@ class LoginViewModel : ViewModel() {
             return
         }
 
-        //Api calls
+        // Api calls
         viewModelScope.launch {
             try {
                 val appKeyResponse = API.createAppKey()
@@ -46,7 +46,7 @@ class LoginViewModel : ViewModel() {
 
                 val oauthKey = oauthKeyResponse.oauthkey
                 val oauthUser = oauthKeyResponse.o_u
-                Preferences.saveUser(ctx, oauthUser)
+                Preferences.saveUser(ctx, oauthUser) // Save user on app preferences
                 val sessionKeyResponse = API.createSesskey(oauthUser, oauthKey)
 
                 if (sessionKeyResponse == null || sessionKeyResponse.status != "ok") {
@@ -56,7 +56,7 @@ class LoginViewModel : ViewModel() {
 
                 val sessionToken = sessionKeyResponse.sesskey
 
-                Preferences.saveSessionToken(ctx, sessionToken)
+                Preferences.saveSessionToken(ctx, sessionToken) // Save session on app preferences
 
                 onSuccess()
             } catch (e: Exception) {

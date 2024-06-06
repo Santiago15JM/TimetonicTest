@@ -88,6 +88,7 @@ fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
                 Text(text = "Log in", fontSize = 18.sp)
             }
 
+            // Conditions for showing dialogs
             when {
                 vm.showBadCredsDialog -> AlertDialog(
                     text = "Wrong credentials",

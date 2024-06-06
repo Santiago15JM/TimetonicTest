@@ -1,5 +1,6 @@
 package com.sjm.timetonic.logic
 
+// Data Transfer Objects for the HTTP responses
 data class AppKeyResponse(
     val status: String,
     val errorCode: String,

@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+// Retrofit HTTP client configuration
 object RetrofitHelper {
     private const val baseUrl = "https://timetonic.com/live/api.php/"
 

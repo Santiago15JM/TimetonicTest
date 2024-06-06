@@ -16,6 +16,8 @@ class LandingViewModel : ViewModel() {
     val books = mutableStateListOf<Book>()
     var showError by mutableStateOf(false)
     var loading by mutableStateOf(true)
+
+    // Get books from api and add them to the list
     fun getBooks(ctx: Context) {
         viewModelScope.launch {
             val response = API.getAllBooks(Preferences.getUser(ctx)!!, Preferences.getSessionToken(ctx)!!)
@@ -30,10 +32,11 @@ class LandingViewModel : ViewModel() {
         }
     }
 
-    fun logOut(ctx: Context, onLogOut: () -> Unit) {
+    // Delete user and token from storage
+    fun logOut(ctx: Context, navigateAfterLogout: () -> Unit) {
         viewModelScope.launch {
             Preferences.clear(ctx)
-            onLogOut()
+            navigateAfterLogout()
         }
     }
 }
