@@ -64,8 +64,14 @@ fun LandingPage(nav: NavController, vm: LandingViewModel = viewModel()) {
             )
             Button(
                 onClick = {
-                    // Clears credentials from storage then navigates to login
-                    vm.logOut(ctx, navigateAfterLogout = { nav.navigate("login") })
+                    // Clears credentials from storage then navigates to login, clearing the back stack to prevent the user from "backing" to landing
+                    vm.logOut(ctx, navigateAfterLogout = {
+                        nav.navigate("login") {
+                            popUpTo("landing") {
+                                inclusive = true
+                            }
+                        }
+                    })
                 },
             ) {
                 Icon(
@@ -105,7 +111,7 @@ fun LandingPage(nav: NavController, vm: LandingViewModel = viewModel()) {
                 vm.showError -> item { ErrorItem() }
 
                 else -> {
-                    items(vm.books) {book ->
+                    items(vm.books) { book ->
                         BookItem(title = book.ownerPrefs.title, imgPath = book.ownerPrefs.oCoverImg)
                     }
                     item { Spacer(modifier = Modifier.height(10.dp)) }

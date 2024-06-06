@@ -1,7 +1,5 @@
 package com.sjm.timetonic.screens.login
 
-import android.app.Activity
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,11 +37,6 @@ import com.sjm.timetonic.ui.theme.TimetonicTestTheme
 @Composable
 fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
     val ctx = LocalContext.current
-
-    // To prevent the user from "backing" in to landing
-    BackHandler {
-        (ctx as Activity).finish()
-    }
 
     Surface(
         shape = RoundedCornerShape(16.dp), modifier = Modifier
@@ -84,18 +77,25 @@ fun Login(nav: NavController, vm: LoginViewModel = viewModel()) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Button(onClick = { vm.login(ctx, onSuccess = { nav.navigate("landing") }) }) {
+            Button(onClick = {
+                vm.login(ctx, onSuccess = {
+                    // Navigate to landing and clear back stack
+                    nav.navigate("landing") {
+                        popUpTo("login") {
+                            inclusive = true
+                        }
+                    }
+                })
+            }) {
                 Text(text = "Log in", fontSize = 18.sp)
             }
 
             // Conditions for showing dialogs
             when {
-                vm.showBadCredsDialog -> AlertDialog(
-                    text = "Wrong credentials",
+                vm.showBadCredsDialog -> AlertDialog(text = "Wrong credentials",
                     onDismissRequest = { vm.showBadCredsDialog = false })
 
-                vm.showErrorDialog -> AlertDialog(
-                    text = "There was an error",
+                vm.showErrorDialog -> AlertDialog(text = "There was an error",
                     onDismissRequest = { vm.showErrorDialog = false })
             }
         }
