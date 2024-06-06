@@ -46,6 +46,7 @@ class LoginViewModel : ViewModel() {
 
                 val oauthKey = oauthKeyResponse.oauthkey
                 val oauthUser = oauthKeyResponse.o_u
+                Preferences.saveUser(ctx, oauthUser)
                 val sessionKeyResponse = API.createSesskey(oauthUser, oauthKey)
 
                 if (sessionKeyResponse == null || sessionKeyResponse.status != "ok") {
