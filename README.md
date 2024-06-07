@@ -1,4 +1,4 @@
-# My Android App
+# Timetonic's library
 
 This repository hosts an Android application built with modern Android development tools and practices. The app consists of two screens: a login screen and a landing page. It demonstrates the use of Jetpack Compose, Compose Navigation, Preferences DataStore, Retrofit, and Coil, following the DTO (Data Transfer Objects) and MVVM (Model-View-ViewModel) patterns.
 
